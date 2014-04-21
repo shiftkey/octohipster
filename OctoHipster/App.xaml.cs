@@ -1,17 +1,27 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Configuration;
-using System.Data;
-using System.Linq;
-using System.Threading.Tasks;
-using System.Windows;
+﻿using System.Windows;
+using OctoHipster.Services;
+using OctoHipster.ViewModels;
+using OctoHipster.Views;
 
 namespace OctoHipster
 {
-    /// <summary>
-    /// Interaction logic for App.xaml
-    /// </summary>
-    public partial class App : Application
+    public partial class App
     {
+        protected override void OnStartup(StartupEventArgs e)
+        {
+            base.OnStartup(e);
+
+            var mainWindow = new MainWindow();
+
+            var customerService = new CustomerService();
+
+            var viewModel = new ShellViewModel(customerService);
+            viewModel.Activate();
+
+            var view = new ShellView { DataContext = viewModel };
+
+            mainWindow.Content = view;
+            mainWindow.Show();
+        }
     }
 }
