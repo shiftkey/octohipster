@@ -91,6 +91,7 @@
     <Compile Include="Logic\BooleanToVisibilityConverter.cs" />
     <Compile Include="Logic\ConverterMarkupExtension.cs" />
     <Compile Include="Logic\IActivate.cs" />
+    <Compile Include="Logic\ReactiveUIExtensions.cs" />
     <Compile Include="Logic\SampleDataExtensions.cs" />
     <Compile Include="Models\Customer.cs" />
     <Compile Include="Models\Order.cs" />

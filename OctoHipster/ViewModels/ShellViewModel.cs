@@ -1,8 +1,7 @@
 ﻿using System;
 using System.Collections.ObjectModel;
 using System.Reactive.Linq;
-using System.Reactive.Threading.Tasks;
-using System.Threading.Tasks;
+using OctoHipster.Logic;
 using OctoHipster.Services;
 using ReactiveUI;
 
@@ -10,6 +9,7 @@ namespace OctoHipster.ViewModels
 {
     public interface IShellViewModel
     {
+        ReactiveCommand<object> UpdateSearchResults { get; }
         bool IsLoading { get; }
         bool ShowError { get; }
         string SearchText { get; set; }
@@ -26,10 +26,36 @@ namespace OctoHipster.ViewModels
 
             MatchingCustomers = new ObservableCollection<CustomerViewModel>();
 
+            UpdateSearchResults = ReactiveCommand.Create();
+            UpdateSearchResults.Subscribe(async o =>
+            {
+                var value = o as string;
+
+                MatchingCustomers.Clear();
+
+                if (String.IsNullOrWhiteSpace(value)) return;
+
+                IsLoading = true;
+
+                var customers = await _customerService.GetByName(value);
+
+                foreach (var c in customers)
+                {
+                    MatchingCustomers.Add(new CustomerViewModel
+                    {
+                        Name = c.Name,
+                        Company = c.Company,
+                        Contact = c.Contact,
+                        DateOfBirth = c.DateOfBirth
+                    });
+                }
+
+                IsLoading = false;
+            });
+
             this.WhenAnyValue(x => x.SearchText)
                 .Throttle(TimeSpan.FromMilliseconds(500), RxApp.MainThreadScheduler)
-                .SelectMany(_ => UpdateSearchResults().ToObservable())
-                .Subscribe();
+                .Subscribe(x => UpdateSearchResults.TryExecute(x));
         }
 
         bool _isLoading;
@@ -53,47 +79,7 @@ namespace OctoHipster.ViewModels
             set { this.RaiseAndSetIfChanged(ref _searchText, value); }
         }
 
-        // TPL nerd notes - with .NET 4.5, exceptions
-        // raised by awaitable tasks are handled if you
-        // the method signature is "async Task" - so they'll
-        // be swallowed here and not bring down the app
-        public async Task UpdateSearchResults()
-        {
-            MatchingCustomers.Clear();
-
-            // depends on external state, hrm
-            var searchText = SearchText;
-
-            // looks like a precondition
-            if (String.IsNullOrWhiteSpace(SearchText)) return;
-
-            // ha ha mutable state
-            ShowError = false;
-            IsLoading = true;
-
-            try
-            {
-                // this service is so unreliable
-                var customers = await _customerService.GetByName(searchText);
-
-                // map the results and populate the collection
-                foreach (var c in customers)
-                {
-                    MatchingCustomers.Add(new CustomerViewModel
-                    {
-                        Name = c.Name,
-                        Company = c.Company,
-                        Contact = c.Contact,
-                        DateOfBirth = c.DateOfBirth
-                    });
-                }
-            }
-            catch (Exception)
-            {
-                ShowError = true;
-            }
-            IsLoading = false;
-        }
+        public ReactiveCommand<object> UpdateSearchResults { get; private set; }
 
         public ObservableCollection<CustomerViewModel> MatchingCustomers { get; private set; }
     }
