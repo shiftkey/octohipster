@@ -23,11 +23,12 @@
         <TextBlock Text="Find a customer" Foreground="{StaticResource BackgroundBrush}" />
 
         <TextBox Grid.Row="1"
-                 Text="{Binding SearchText, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                 x:Name="SearchText">
+        </TextBox>
 
-        <ListView ItemsSource="{Binding MatchingCustomers}"
-                  Visibility="{Binding IsLoading, Converter={logic:BooleanToInverseVisibilityConverter}}"
-                  Grid.Row="2">
+        <ListView x:Name="Items"
+                  Grid.Row="2"
+                  Visibility="{Binding IsLoading, Converter={logic:BooleanToInverseVisibilityConverter}}">
             <ListView.ItemTemplate>
                 <DataTemplate>
                     <TextBlock>
@@ -38,7 +39,8 @@
             </ListView.ItemTemplate>
         </ListView>
 
-        <ProgressBar Style="{StaticResource WaveProgressRingStyle}"
+        <ProgressBar x:Name="progressBar"
+                     Style="{StaticResource WaveProgressRingStyle}"
                      Grid.Row="2"
                      IsIndeterminate="{Binding IsLoading}"
                      Width="100"
