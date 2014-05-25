@@ -32,7 +32,7 @@ namespace OctoHipster.ViewModels
 
             UpdateSearchResults = ReactiveCommand.CreateAsyncTask(o =>
             {
-                var value = o as string;
+                var value = SearchText;
 
                 MatchingCustomers.Clear();
                 ShowError = false;
@@ -71,7 +71,7 @@ namespace OctoHipster.ViewModels
 
             this.WhenAnyValue(x => x.SearchText)
                 .Throttle(TimeSpan.FromMilliseconds(500), RxApp.MainThreadScheduler)
-                .Subscribe(x => UpdateSearchResults.TryExecute(x));
+                .InvokeCommand(UpdateSearchResults);
         }
 
         readonly ObservableAsPropertyHelper<bool> _isLoading;
