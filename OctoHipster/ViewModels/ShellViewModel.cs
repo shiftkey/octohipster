@@ -27,6 +27,7 @@ namespace OctoHipster.ViewModels
             MatchingCustomers = new ObservableCollection<CustomerViewModel>();
 
             this.WhenAnyValue(x => x.SearchText)
+                .Throttle(TimeSpan.FromMilliseconds(500), RxApp.MainThreadScheduler)
                 .SelectMany(_ => UpdateSearchResults().ToObservable())
                 .Subscribe();
         }
