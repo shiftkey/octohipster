@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Collections.ObjectModel;
 using System.Threading.Tasks;
-using Caliburn.Micro;
 using OctoHipster.Services;
+using ReactiveUI;
 
 namespace OctoHipster.ViewModels
 {
@@ -14,7 +14,7 @@ namespace OctoHipster.ViewModels
         ObservableCollection<CustomerViewModel> MatchingCustomers { get; }
     }
 
-    public class ShellViewModel : PropertyChangedBase, IShellViewModel
+    public class ShellViewModel : ReactiveObject, IShellViewModel
     {
         readonly ICustomerService _customerService;
 
@@ -29,22 +29,14 @@ namespace OctoHipster.ViewModels
         public bool IsLoading
         {
             get { return _isLoading; }
-            private set
-            {
-                _isLoading = value;
-                NotifyOfPropertyChange(() => IsLoading);
-            }
+            private set { this.RaiseAndSetIfChanged(ref _isLoading, value); }
         }
 
         bool _showError;
         public bool ShowError
         {
             get { return _showError; }
-            set
-            {
-                _showError = value;
-                NotifyOfPropertyChange(() => ShowError);
-            }
+            private set { this.RaiseAndSetIfChanged(ref _showError, value); }
         }
 
         string _searchText;
@@ -54,7 +46,7 @@ namespace OctoHipster.ViewModels
             get { return _searchText; }
             set
             {
-                _searchText = value;
+                this.RaiseAndSetIfChanged(ref _searchText, value);
             }
         }
 
