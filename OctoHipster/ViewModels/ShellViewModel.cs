@@ -1,7 +1,11 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Reactive.Linq;
+using System.Linq;
+using System.Threading.Tasks;
 using OctoHipster.Logic;
+using OctoHipster.Models;
 using OctoHipster.Services;
 using ReactiveUI;
 
@@ -9,7 +13,7 @@ namespace OctoHipster.ViewModels
 {
     public interface IShellViewModel
     {
-        ReactiveCommand<object> UpdateSearchResults { get; }
+        ReactiveCommand<IEnumerable<Customer>> UpdateSearchResults { get; }
         bool IsLoading { get; }
         bool ShowError { get; }
         string SearchText { get; set; }
@@ -26,19 +30,23 @@ namespace OctoHipster.ViewModels
 
             MatchingCustomers = new ObservableCollection<CustomerViewModel>();
 
-            UpdateSearchResults = ReactiveCommand.Create();
-            UpdateSearchResults.Subscribe(async o =>
+            UpdateSearchResults = ReactiveCommand.CreateAsyncTask(o =>
             {
                 var value = o as string;
 
                 MatchingCustomers.Clear();
 
-                if (String.IsNullOrWhiteSpace(value)) return;
+                if (String.IsNullOrWhiteSpace(value))
+                {
+                    // making a decision here to not fetch the world
+                    return Task.FromResult(Enumerable.Empty<Customer>());
+                }
 
-                IsLoading = true;
+                return _customerService.GetByName(value);
+            });
 
-                var customers = await _customerService.GetByName(value);
-
+            UpdateSearchResults.Subscribe(customers =>
+            {
                 foreach (var c in customers)
                 {
                     MatchingCustomers.Add(new CustomerViewModel
@@ -49,20 +57,20 @@ namespace OctoHipster.ViewModels
                         DateOfBirth = c.DateOfBirth
                     });
                 }
-
-                IsLoading = false;
             });
+
+            _isLoading = UpdateSearchResults.IsExecuting
+                .ToProperty(this, vm => vm.IsLoading);
 
             this.WhenAnyValue(x => x.SearchText)
                 .Throttle(TimeSpan.FromMilliseconds(500), RxApp.MainThreadScheduler)
                 .Subscribe(x => UpdateSearchResults.TryExecute(x));
         }
 
-        bool _isLoading;
+        readonly ObservableAsPropertyHelper<bool> _isLoading;
         public bool IsLoading
         {
-            get { return _isLoading; }
-            private set { this.RaiseAndSetIfChanged(ref _isLoading, value); }
+            get { return _isLoading.Value; }
         }
 
         bool _showError;
@@ -79,7 +87,7 @@ namespace OctoHipster.ViewModels
             set { this.RaiseAndSetIfChanged(ref _searchText, value); }
         }
 
-        public ReactiveCommand<object> UpdateSearchResults { get; private set; }
+        public ReactiveCommand<IEnumerable<Customer>> UpdateSearchResults { get; private set; }
 
         public ObservableCollection<CustomerViewModel> MatchingCustomers { get; private set; }
     }

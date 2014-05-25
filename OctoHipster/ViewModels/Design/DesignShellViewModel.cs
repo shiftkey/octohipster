@@ -1,4 +1,6 @@
 ﻿using System.Collections.ObjectModel;
+using System.Collections.Generic;
+using OctoHipster.Models;
 using ReactiveUI;
 
 namespace OctoHipster.ViewModels.Design
@@ -16,7 +18,7 @@ namespace OctoHipster.ViewModels.Design
             MatchingCustomers.Add(new CustomerViewModel { Name = "Phil Haack", Company = "GitHub" });
         }
 
-        public ReactiveCommand<object> UpdateSearchResults { get; private set; }
+        public ReactiveCommand<IEnumerable<Customer>> UpdateSearchResults { get; private set; }
 
         public bool IsLoading { get; private set; }
         public bool ShowError { get; private set; }
