@@ -69,6 +69,8 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Logic\BooleanToInverseVisibilityConverter.cs" />
+    <Compile Include="Logic\ConverterMarkupExtension.cs" />
     <Compile Include="Logic\IActivate.cs" />
     <Compile Include="Logic\SampleDataExtensions.cs" />
     <Compile Include="Models\Customer.cs" />
@@ -77,6 +79,7 @@
     <Compile Include="Services\CustomerService.cs" />
     <Compile Include="Services\OrderService.cs" />
     <Compile Include="ViewModels\CustomerViewModel.cs" />
+    <Compile Include="ViewModels\Design\DesignShellViewModel.cs" />
     <Compile Include="ViewModels\OrderItemViewModel.cs" />
     <Compile Include="ViewModels\OrderViewModel.cs" />
     <Compile Include="ViewModels\ShellViewModel.cs" />

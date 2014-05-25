@@ -5,7 +5,13 @@ using OctoHipster.Services;
 
 namespace OctoHipster.ViewModels
 {
-    public class ShellViewModel : ViewModelBase, IActivate
+    public interface IShellViewModel
+    {
+        bool IsLoading { get; }
+        string SearchText { get; set; }
+    }
+
+    public class ShellViewModel : ViewModelBase, IShellViewModel, IActivate
     {
         readonly CustomerService _customerService;
 
@@ -31,5 +37,9 @@ namespace OctoHipster.ViewModels
                 });
             }
         }
+
+        public bool IsLoading { get; private set; }
+
+        public string SearchText { get; set; }
     }
 }
