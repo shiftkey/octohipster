@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.ObjectModel;
+using System.Threading.Tasks;
 using GalaSoft.MvvmLight;
 using OctoHipster.Services;
 
@@ -23,9 +24,19 @@ namespace OctoHipster.ViewModels
             MatchingCustomers = new ObservableCollection<CustomerViewModel>();
         }
 
-        public bool IsLoading { get; private set; }
+        public bool IsLoading
+        {
+            get { return _isLoading; }
+            private set
+            {
+                _isLoading = value;
+                RaisePropertyChanged(() => IsLoading);
+            }
+        }
 
         string _searchText;
+        private bool _isLoading;
+
         public string SearchText
         {
             get { return _searchText; }
@@ -36,7 +47,7 @@ namespace OctoHipster.ViewModels
             }
         }
 
-        void UpdateSearchResults(string value)
+        async Task UpdateSearchResults(string value)
         {
             MatchingCustomers.Clear();
 
@@ -44,7 +55,9 @@ namespace OctoHipster.ViewModels
 
             IsLoading = true;
 
-            foreach (var c in _customerService.GetByName(value))
+            var customers = await _customerService.GetByName(value);
+
+            foreach (var c in customers)
             {
                 MatchingCustomers.Add(new CustomerViewModel
                 {

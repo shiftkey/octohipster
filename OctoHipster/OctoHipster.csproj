@@ -70,6 +70,7 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="Logic\BooleanToInverseVisibilityConverter.cs" />
+    <Compile Include="Logic\BooleanToVisibilityConverter.cs" />
     <Compile Include="Logic\ConverterMarkupExtension.cs" />
     <Compile Include="Logic\IActivate.cs" />
     <Compile Include="Logic\SampleDataExtensions.cs" />
