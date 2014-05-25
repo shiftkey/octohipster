@@ -14,52 +14,48 @@
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="ProgressBar">
-                    <Border Background="{TemplateBinding Background}"
-                            BorderThickness="{TemplateBinding BorderThickness}"
-                            BorderBrush="{TemplateBinding BorderBrush}">
 
-                        <Grid x:Name="Ring"
-                              Margin="{TemplateBinding Padding}"
-                              Visibility="Collapsed">
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="6*"/>
-                                <ColumnDefinition Width="4*"/>
-                                <ColumnDefinition Width="6*"/>
-                                <ColumnDefinition Width="4*"/>
-                                <ColumnDefinition Width="6*"/>
-                                <ColumnDefinition Width="4*"/>
-                                <ColumnDefinition Width="6*"/>
-                                <ColumnDefinition Width="4*"/>
-                                <ColumnDefinition Width="6*"/>
-                            </Grid.ColumnDefinitions>
+                    <Grid x:Name="Ring"
+                            Margin="{TemplateBinding Padding}"
+                            Visibility="Collapsed">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="6*"/>
+                            <ColumnDefinition Width="4*"/>
+                            <ColumnDefinition Width="6*"/>
+                            <ColumnDefinition Width="4*"/>
+                            <ColumnDefinition Width="6*"/>
+                            <ColumnDefinition Width="4*"/>
+                            <ColumnDefinition Width="6*"/>
+                            <ColumnDefinition Width="4*"/>
+                            <ColumnDefinition Width="6*"/>
+                        </Grid.ColumnDefinitions>
 
-                            <Rectangle x:Name="ProgressElement1" Grid.Column="0" Fill="{TemplateBinding Foreground}" RenderTransformOrigin="0.5,0.5">
-                                <Rectangle.RenderTransform>
-                                    <ScaleTransform ScaleY="0.4"/>
-                                </Rectangle.RenderTransform>
-                            </Rectangle>
-                            <Rectangle x:Name="ProgressElement2" Grid.Column="2" Fill="{TemplateBinding Foreground}" RenderTransformOrigin="0.5,0.5">
-                                <Rectangle.RenderTransform>
-                                    <ScaleTransform ScaleY="0.4"/>
-                                </Rectangle.RenderTransform>
-                            </Rectangle>
-                            <Rectangle x:Name="ProgressElement3" Grid.Column="4" Fill="{TemplateBinding Foreground}" RenderTransformOrigin="0.5,0.5">
-                                <Rectangle.RenderTransform>
-                                    <ScaleTransform ScaleY="0.4"/>
-                                </Rectangle.RenderTransform>
-                            </Rectangle>
-                            <Rectangle x:Name="ProgressElement4" Grid.Column="6" Fill="{TemplateBinding Foreground}" RenderTransformOrigin="0.5,0.5">
-                                <Rectangle.RenderTransform>
-                                    <ScaleTransform ScaleY="0.4"/>
-                                </Rectangle.RenderTransform>
-                            </Rectangle>
-                            <Rectangle x:Name="ProgressElement5" Grid.Column="8" Fill="{TemplateBinding Foreground}" RenderTransformOrigin="0.5,0.5">
-                                <Rectangle.RenderTransform>
-                                    <ScaleTransform ScaleY="0.4"/>
-                                </Rectangle.RenderTransform>
-                            </Rectangle>
-                        </Grid>
-                    </Border>
+                        <Rectangle x:Name="ProgressElement1" Grid.Column="0" Fill="{TemplateBinding Foreground}" RenderTransformOrigin="0.5,0.5">
+                            <Rectangle.RenderTransform>
+                                <ScaleTransform ScaleY="0.4"/>
+                            </Rectangle.RenderTransform>
+                        </Rectangle>
+                        <Rectangle x:Name="ProgressElement2" Grid.Column="2" Fill="{TemplateBinding Foreground}" RenderTransformOrigin="0.5,0.5">
+                            <Rectangle.RenderTransform>
+                                <ScaleTransform ScaleY="0.4"/>
+                            </Rectangle.RenderTransform>
+                        </Rectangle>
+                        <Rectangle x:Name="ProgressElement3" Grid.Column="4" Fill="{TemplateBinding Foreground}" RenderTransformOrigin="0.5,0.5">
+                            <Rectangle.RenderTransform>
+                                <ScaleTransform ScaleY="0.4"/>
+                            </Rectangle.RenderTransform>
+                        </Rectangle>
+                        <Rectangle x:Name="ProgressElement4" Grid.Column="6" Fill="{TemplateBinding Foreground}" RenderTransformOrigin="0.5,0.5">
+                            <Rectangle.RenderTransform>
+                                <ScaleTransform ScaleY="0.4"/>
+                            </Rectangle.RenderTransform>
+                        </Rectangle>
+                        <Rectangle x:Name="ProgressElement5" Grid.Column="8" Fill="{TemplateBinding Foreground}" RenderTransformOrigin="0.5,0.5">
+                            <Rectangle.RenderTransform>
+                                <ScaleTransform ScaleY="0.4"/>
+                            </Rectangle.RenderTransform>
+                        </Rectangle>
+                    </Grid>
                     <ControlTemplate.Triggers>
                         <DataTrigger Binding="{Binding RelativeSource={RelativeSource Self}, Path=IsIndeterminate}" Value="True">
                             <DataTrigger.EnterActions>

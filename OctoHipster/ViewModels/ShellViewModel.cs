@@ -36,11 +36,13 @@ namespace OctoHipster.ViewModels
             }
         }
 
-         void UpdateSearchResults(string value)
+        void UpdateSearchResults(string value)
         {
             MatchingCustomers.Clear();
 
             if (String.IsNullOrWhiteSpace(value)) return;
+
+            IsLoading = true;
 
             foreach (var c in _customerService.GetByName(value))
             {
@@ -52,8 +54,10 @@ namespace OctoHipster.ViewModels
                     DateOfBirth = c.DateOfBirth
                 });
             }
+
+            IsLoading = false;
         }
 
-         public ObservableCollection<CustomerViewModel> MatchingCustomers { get; private set; }
+        public ObservableCollection<CustomerViewModel> MatchingCustomers { get; private set; }
     }
 }
