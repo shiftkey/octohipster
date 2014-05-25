@@ -10,10 +10,16 @@ using OctoHipster.Models;
 
 namespace OctoHipster.Services
 {
-    public class CustomerService
+    public interface ICustomerService
+    {
+        Task<IEnumerable<Customer>> GetByName(string value);
+    }
+
+    public class CustomerService : ICustomerService
     {
         readonly Random _random = new Random();
-        public IEnumerable<Customer> GetAll()
+
+        static IEnumerable<Customer> GetAll()
         {
             var json = Assembly.GetExecutingAssembly().GetFileContents("users.json");
             return JsonConvert.DeserializeObject<IEnumerable<Customer>>(json);

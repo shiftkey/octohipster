@@ -15,9 +15,8 @@ namespace OctoHipster
             var mainWindow = new MainWindow();
 
             var customerService = new CustomerService();
-            var orderService = new OrderService();
-
-            var viewModel = new ShellViewModel(customerService, orderService);
+   
+            var viewModel = new ShellViewModel(customerService);
 
             var view = new NewShellView { DataContext = viewModel };
 

@@ -14,9 +14,9 @@ namespace OctoHipster.ViewModels
 
     public class ShellViewModel : ViewModelBase, IShellViewModel
     {
-        readonly CustomerService _customerService;
+        readonly ICustomerService _customerService;
 
-        public ShellViewModel(CustomerService customerService, OrderService orderService)
+        public ShellViewModel(ICustomerService customerService)
         {
             _customerService = customerService;
 
