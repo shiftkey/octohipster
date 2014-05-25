@@ -1,9 +1,11 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 2013
-VisualStudioVersion = 12.0.30110.0
+VisualStudioVersion = 12.0.30501.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OctoHipster", "OctoHipster\OctoHipster.csproj", "{D4E1C258-8E45-4958-8F30-AB2E9686CEE4}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OctoHipster.Tests", "OctoHipster.Tests\OctoHipster.Tests.csproj", "{829EB44E-ADB0-410C-A6F0-0722E1CA2F76}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,6 +17,10 @@ Global
 		{D4E1C258-8E45-4958-8F30-AB2E9686CEE4}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D4E1C258-8E45-4958-8F30-AB2E9686CEE4}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{D4E1C258-8E45-4958-8F30-AB2E9686CEE4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{829EB44E-ADB0-410C-A6F0-0722E1CA2F76}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{829EB44E-ADB0-410C-A6F0-0722E1CA2F76}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{829EB44E-ADB0-410C-A6F0-0722E1CA2F76}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{829EB44E-ADB0-410C-A6F0-0722E1CA2F76}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
