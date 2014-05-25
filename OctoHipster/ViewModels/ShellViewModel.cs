@@ -35,6 +35,7 @@ namespace OctoHipster.ViewModels
                 var value = o as string;
 
                 MatchingCustomers.Clear();
+                ShowError = false;
 
                 if (String.IsNullOrWhiteSpace(value))
                 {
@@ -43,6 +44,12 @@ namespace OctoHipster.ViewModels
                 }
 
                 return _customerService.GetByName(value);
+            });
+
+            UpdateSearchResults.ThrownExceptions.Subscribe(ex =>
+            {
+                // TODO: log exception
+                ShowError = true;
             });
 
             UpdateSearchResults.Subscribe(customers =>
