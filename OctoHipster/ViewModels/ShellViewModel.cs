@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.ObjectModel;
+using System.Reactive.Linq;
+using System.Reactive.Threading.Tasks;
 using System.Threading.Tasks;
 using OctoHipster.Services;
 using ReactiveUI;
@@ -23,6 +25,10 @@ namespace OctoHipster.ViewModels
             _customerService = customerService;
 
             MatchingCustomers = new ObservableCollection<CustomerViewModel>();
+
+            this.WhenAnyValue(x => x.SearchText)
+                .SelectMany(_ => UpdateSearchResults().ToObservable())
+                .Subscribe();
         }
 
         bool _isLoading;
@@ -40,14 +46,10 @@ namespace OctoHipster.ViewModels
         }
 
         string _searchText;
-        
         public string SearchText
         {
             get { return _searchText; }
-            set
-            {
-                this.RaiseAndSetIfChanged(ref _searchText, value);
-            }
+            set { this.RaiseAndSetIfChanged(ref _searchText, value); }
         }
 
         // TPL nerd notes - with .NET 4.5, exceptions
