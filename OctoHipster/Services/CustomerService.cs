@@ -23,7 +23,14 @@ namespace OctoHipster.Services
         {
             Trace.WriteLine("Fetching customers containing value: " + value);
 
-            await Task.Delay(_random.Next(1000, 2000));
+            // emulate some network delay here before returning the data
+            await Task.Delay(_random.Next(1000, 3000));
+
+            // sometimes the request will fail, gotta handle that in the client
+            if (_random.Next(100) > 90)
+            {
+                throw new InvalidOperationException("something bad happened");
+            }
 
             return GetAll().Where(c => c.Name.ToLower().Contains(value.ToLower()));
         }

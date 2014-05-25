@@ -50,7 +50,15 @@ namespace OctoHipster.ViewModels
             }
         }
 
-        async Task UpdateSearchResults(string value)
+        // TPL nerd notes - with .NET 4.5, exceptions
+        // raised by awaitable tasks are handled if you
+        // the method signature is "async Task" - so they'll
+        // be swallowed here and not bring down the app
+
+        // for the purposes of evil, I'm going to use
+        // "async void" here because I want to demo
+        // how commands *should* handle exceptions
+        async void UpdateSearchResults(string value)
         {
             MatchingCustomers.Clear();
 
