@@ -1,6 +1,6 @@
-﻿using System.Collections.ObjectModel;
+﻿using System;
+using System.Collections.ObjectModel;
 using GalaSoft.MvvmLight;
-using OctoHipster.Logic;
 using OctoHipster.Services;
 
 namespace OctoHipster.ViewModels
@@ -9,9 +9,10 @@ namespace OctoHipster.ViewModels
     {
         bool IsLoading { get; }
         string SearchText { get; set; }
+        ObservableCollection<CustomerViewModel> MatchingCustomers { get; }
     }
 
-    public class ShellViewModel : ViewModelBase, IShellViewModel, IActivate
+    public class ShellViewModel : ViewModelBase, IShellViewModel
     {
         readonly CustomerService _customerService;
 
@@ -19,16 +20,31 @@ namespace OctoHipster.ViewModels
         {
             _customerService = customerService;
 
-            Customers = new ObservableCollection<CustomerViewModel>();
+            MatchingCustomers = new ObservableCollection<CustomerViewModel>();
         }
 
-        public ObservableCollection<CustomerViewModel> Customers { get; set; }
+        public bool IsLoading { get; private set; }
 
-        public void Activate()
+        string _searchText;
+        public string SearchText
         {
-            foreach (var c in _customerService.GetAll())
+            get { return _searchText; }
+            set
             {
-                Customers.Add(new CustomerViewModel
+                _searchText = value;
+                UpdateSearchResults(value);
+            }
+        }
+
+         void UpdateSearchResults(string value)
+        {
+            MatchingCustomers.Clear();
+
+            if (String.IsNullOrWhiteSpace(value)) return;
+
+            foreach (var c in _customerService.GetByName(value))
+            {
+                MatchingCustomers.Add(new CustomerViewModel
                 {
                     Name = c.Name,
                     Company = c.Company,
@@ -38,8 +54,6 @@ namespace OctoHipster.ViewModels
             }
         }
 
-        public bool IsLoading { get; private set; }
-
-        public string SearchText { get; set; }
+         public ObservableCollection<CustomerViewModel> MatchingCustomers { get; private set; }
     }
 }

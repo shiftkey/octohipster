@@ -18,7 +18,6 @@ namespace OctoHipster
             var orderService = new OrderService();
 
             var viewModel = new ShellViewModel(customerService, orderService);
-            viewModel.Activate();
 
             var view = new NewShellView { DataContext = viewModel };
 
