@@ -43,6 +43,9 @@ namespace OctoHipster.ViewModels
             set
             {
                 _searchText = value;
+                // hahahaha this is just horrible
+                // do not try this at home
+                // use proper commanding
                 UpdateSearchResults(value);
             }
         }
