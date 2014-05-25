@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.IO;
+using System.Diagnostics;
 using System.Linq;
 using System.Reflection;
 using System.Threading.Tasks;
@@ -12,7 +12,7 @@ namespace OctoHipster.Services
 {
     public class CustomerService
     {
-        Random random = new Random();
+        readonly Random _random = new Random();
         public IEnumerable<Customer> GetAll()
         {
             var json = Assembly.GetExecutingAssembly().GetFileContents("users.json");
@@ -21,7 +21,9 @@ namespace OctoHipster.Services
 
         public async Task<IEnumerable<Customer>> GetByName(string value)
         {
-            await Task.Delay(random.Next(1000, 2000));
+            Trace.WriteLine("Fetching customers containing value: " + value);
+
+            await Task.Delay(_random.Next(1000, 2000));
 
             return GetAll().Where(c => c.Name.ToLower().Contains(value.ToLower()));
         }
