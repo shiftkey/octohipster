@@ -2,6 +2,7 @@
 using System.IO;
 using System.Reflection;
 using Newtonsoft.Json;
+using OctoHipster.Logic;
 using OctoHipster.Models;
 
 namespace OctoHipster.Services
@@ -10,11 +11,8 @@ namespace OctoHipster.Services
     {
         public IEnumerable<Customer> GetAll()
         {
-            var currentDirectory = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
-            var dataFile = Path.Combine(currentDirectory, "data", "users.json");
-            var json = File.ReadAllText(dataFile);
-            var users = JsonConvert.DeserializeObject<IEnumerable<Customer>>(json);
-            return users;
+            var json = Assembly.GetExecutingAssembly().GetFileContents("users.json");
+            return JsonConvert.DeserializeObject<IEnumerable<Customer>>(json);
         }
     }
 }

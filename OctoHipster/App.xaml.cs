@@ -1,4 +1,5 @@
 ﻿using System.Windows;
+using OctoHipster.Models;
 using OctoHipster.Services;
 using OctoHipster.ViewModels;
 using OctoHipster.Views;
@@ -14,8 +15,9 @@ namespace OctoHipster
             var mainWindow = new MainWindow();
 
             var customerService = new CustomerService();
+            var orderService = new OrderService();
 
-            var viewModel = new ShellViewModel(customerService);
+            var viewModel = new ShellViewModel(customerService, orderService);
             viewModel.Activate();
 
             var view = new ShellView { DataContext = viewModel };

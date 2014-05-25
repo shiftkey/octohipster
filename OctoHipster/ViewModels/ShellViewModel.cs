@@ -9,7 +9,7 @@ namespace OctoHipster.ViewModels
     {
         readonly CustomerService _customerService;
 
-        public ShellViewModel(CustomerService customerService)
+        public ShellViewModel(CustomerService customerService, OrderService orderService)
         {
             _customerService = customerService;
 
