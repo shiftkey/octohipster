@@ -7,6 +7,11 @@ namespace OctoHipster.ViewModels.Design
         public DesignShellViewModel()
         {
             SearchText = "shiftkey";
+            MatchingCustomers = new ObservableCollection<CustomerViewModel>();
+            MatchingCustomers.Add(new CustomerViewModel { Name = "Brendan Forster", Company = "GitHub" });
+            MatchingCustomers.Add(new CustomerViewModel { Name = "Paul Betts", Company = "GitHub" });
+            MatchingCustomers.Add(new CustomerViewModel { Name = "Matt Ellis", Company = "JetBrains" });
+            MatchingCustomers.Add(new CustomerViewModel { Name = "Phil Haack", Company = "GitHub" });
         }
 
         public bool IsLoading { get; private set; }

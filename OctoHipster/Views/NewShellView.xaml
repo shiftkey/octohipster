@@ -18,7 +18,18 @@
         
         <TextBox Text="{Binding SearchText, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
 
-        <ListView ItemsSource="{Binding MatchingCustomers}" Visibility="{Binding IsLoading, Converter={logic:BooleanToInverseVisibilityConverter}}" Grid.Row="1"/>
+        <ListView ItemsSource="{Binding MatchingCustomers}"
+                  Visibility="{Binding IsLoading, Converter={logic:BooleanToInverseVisibilityConverter}}"
+                  Grid.Row="1">
+            <ListView.ItemTemplate>
+                <DataTemplate>
+                    <TextBlock>
+                        <Run Text="{Binding Name}" FontWeight="Bold"/>
+                        <Run Text="{Binding Company}" FontWeight="Normal" FontStyle="Italic"/>
+                    </TextBlock>
+                </DataTemplate>
+            </ListView.ItemTemplate>
+        </ListView>
 
         <ProgressBar Style="{StaticResource WaveProgressRingStyle}"
                      Grid.Row="1"
