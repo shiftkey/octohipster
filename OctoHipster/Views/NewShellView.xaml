@@ -13,14 +13,18 @@
         
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
         
-        <TextBox Text="{Binding SearchText, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+        <TextBlock Text="Find a customer" />
+        
+        <TextBox Grid.Row="1"
+                 Text="{Binding SearchText, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
 
         <ListView ItemsSource="{Binding MatchingCustomers}"
                   Visibility="{Binding IsLoading, Converter={logic:BooleanToInverseVisibilityConverter}}"
-                  Grid.Row="1">
+                  Grid.Row="2">
             <ListView.ItemTemplate>
                 <DataTemplate>
                     <TextBlock>
@@ -32,7 +36,7 @@
         </ListView>
 
         <ProgressBar Style="{StaticResource WaveProgressRingStyle}"
-                     Grid.Row="1"
+                     Grid.Row="2"
                      IsIndeterminate="{Binding IsLoading}"
                      Width="100"
                      Height="60"
