@@ -41,5 +41,27 @@
                      Width="100"
                      Height="60"
                      Margin="10"/>
+
+        <Grid Grid.Row="2" Visibility="{Binding ShowError, Converter={logic:BooleanToVisibilityConverter}}">
+            <Canvas HorizontalAlignment="Center"
+                    VerticalAlignment="Center">
+                <Ellipse StrokeThickness="10"
+                         Stroke="Red"
+                         Width="60"
+                         Height="60"
+                         Canvas.Left="-30"
+                         Canvas.Top="-30"/>
+                <Line StrokeThickness="10"
+                      Stroke="Red"
+                      X1="10"
+                      Y1="50"
+                      X2="50"
+                      Y2="10"
+                      Canvas.Left="-30"
+                      Canvas.Top="-30"
+                      Height="60"
+                      Width="60"/>
+            </Canvas>
+        </Grid>
     </Grid>
 </UserControl>

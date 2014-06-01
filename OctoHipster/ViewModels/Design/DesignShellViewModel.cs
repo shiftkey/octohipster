@@ -1,5 +1,4 @@
 ﻿using System.Collections.ObjectModel;
-using System.Linq;
 
 namespace OctoHipster.ViewModels.Design
 {
@@ -17,6 +16,7 @@ namespace OctoHipster.ViewModels.Design
         }
 
         public bool IsLoading { get; private set; }
+        public bool ShowError { get; private set; }
 
         public string SearchText { get; set; }
 

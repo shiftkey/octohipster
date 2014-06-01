@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.ObjectModel;
+using System.Threading.Tasks;
 using GalaSoft.MvvmLight;
 using OctoHipster.Services;
 
@@ -8,6 +9,7 @@ namespace OctoHipster.ViewModels
     public interface IShellViewModel
     {
         bool IsLoading { get; }
+        bool ShowError { get; }
         string SearchText { get; set; }
         ObservableCollection<CustomerViewModel> MatchingCustomers { get; }
     }
@@ -23,6 +25,7 @@ namespace OctoHipster.ViewModels
             MatchingCustomers = new ObservableCollection<CustomerViewModel>();
         }
 
+        bool _isLoading;
         public bool IsLoading
         {
             get { return _isLoading; }
@@ -33,9 +36,19 @@ namespace OctoHipster.ViewModels
             }
         }
 
-        string _searchText;
-        private bool _isLoading;
+        bool _showError;
+        public bool ShowError
+        {
+            get { return _showError; }
+            set
+            {
+                _showError = value;
+                RaisePropertyChanged(() => ShowError);
+            }
+        }
 
+        string _searchText;
+        
         public string SearchText
         {
             get { return _searchText; }
@@ -53,31 +66,34 @@ namespace OctoHipster.ViewModels
         // raised by awaitable tasks are handled if you
         // the method signature is "async Task" - so they'll
         // be swallowed here and not bring down the app
-
-        // for the purposes of evil, I'm going to use
-        // "async void" here because I want to demo
-        // how commands *should* handle exceptions
-        async void UpdateSearchResults(string value)
+        async Task UpdateSearchResults(string value)
         {
             MatchingCustomers.Clear();
 
             if (String.IsNullOrWhiteSpace(value)) return;
 
+            ShowError = false;
             IsLoading = true;
 
-            var customers = await _customerService.GetByName(value);
-
-            foreach (var c in customers)
+            try
             {
-                MatchingCustomers.Add(new CustomerViewModel
-                {
-                    Name = c.Name,
-                    Company = c.Company,
-                    Contact = c.Contact,
-                    DateOfBirth = c.DateOfBirth
-                });
-            }
+                var customers = await _customerService.GetByName(value);
 
+                foreach (var c in customers)
+                {
+                    MatchingCustomers.Add(new CustomerViewModel
+                    {
+                        Name = c.Name,
+                        Company = c.Company,
+                        Contact = c.Contact,
+                        DateOfBirth = c.DateOfBirth
+                    });
+                }
+            }
+            catch (Exception)
+            {
+                ShowError = true;
+            }
             IsLoading = false;
         }
 
