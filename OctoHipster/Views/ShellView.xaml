@@ -23,13 +23,7 @@
         <TextBlock Text="Find a customer" Foreground="{StaticResource BackgroundBrush}" />
 
         <TextBox Grid.Row="1"
-                 Text="{Binding SearchText, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
-            <i:Interaction.Triggers>
-                <i:EventTrigger EventName="KeyUp">
-                    <cal:ActionMessage MethodName="UpdateSearchResults" />
-                </i:EventTrigger>
-            </i:Interaction.Triggers>
-        </TextBox>
+                 Text="{Binding SearchText, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
 
         <ListView ItemsSource="{Binding MatchingCustomers}"
                   Visibility="{Binding IsLoading, Converter={logic:BooleanToInverseVisibilityConverter}}"
