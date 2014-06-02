@@ -1,9 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
+using System.Reactive;
 using System.Windows;
 using Caliburn.Micro;
 using OctoHipster.Services;
 using OctoHipster.ViewModels;
+using ReactiveUI;
 
 namespace OctoHipster
 {
@@ -22,6 +25,15 @@ namespace OctoHipster
         public AppBootstrapper()
         {
             Initialize();
+
+            RxApp.DefaultExceptionHandler = Observer.Create<Exception>(ex =>
+            {
+                // TODO: log anything unexpected
+                if (!Debugger.IsAttached)
+                {
+                    Debugger.Launch();
+                }
+            });
         }
 
         protected override object GetInstance(Type serviceType, string key)
