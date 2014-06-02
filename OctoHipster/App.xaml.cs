@@ -1,27 +1,56 @@
-﻿using System.Windows;
-using OctoHipster.Models;
+﻿using System;
+using System.Collections.Generic;
+using System.Windows;
+using Caliburn.Micro;
 using OctoHipster.Services;
 using OctoHipster.ViewModels;
-using OctoHipster.Views;
 
 namespace OctoHipster
 {
     public partial class App
     {
-        protected override void OnStartup(StartupEventArgs e)
+        public App()
         {
-            base.OnStartup(e);
+            InitializeComponent();
+        }
+    }
 
-            var mainWindow = new MainWindow();
+    public class AppBootstrapper : BootstrapperBase
+    {
+        readonly SimpleContainer _container = new SimpleContainer();
 
-            var customerService = new CustomerService();
-   
-            var viewModel = new ShellViewModel(customerService);
+        public AppBootstrapper()
+        {
+            Initialize();
+        }
 
-            var view = new NewShellView { DataContext = viewModel };
+        protected override object GetInstance(Type serviceType, string key)
+        {
+            return _container.GetInstance(serviceType, key);
+        }
 
-            mainWindow.Content = view;
-            mainWindow.Show();
+        protected override IEnumerable<object> GetAllInstances(Type serviceType)
+        {
+            return _container.GetAllInstances(serviceType);
+        }
+
+        protected override void Configure()
+        {
+            _container.RegisterSingleton(typeof(IWindowManager), null, typeof(WindowManager));
+            _container.RegisterSingleton(typeof(ICustomerService), null, typeof(CustomerService));
+            _container.RegisterSingleton(typeof(IShellViewModel), null, typeof(ShellViewModel));
+
+            base.Configure();
+        }
+
+        protected override void BuildUp(object instance)
+        {
+            _container.BuildUp(instance);
+        }
+
+        protected override void OnStartup(object sender, StartupEventArgs e)
+        {
+            DisplayRootViewFor<IShellViewModel>();
         }
     }
 }

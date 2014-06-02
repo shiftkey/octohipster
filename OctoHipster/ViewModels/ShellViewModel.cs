@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.ObjectModel;
 using System.Threading.Tasks;
-using GalaSoft.MvvmLight;
+using Caliburn.Micro;
 using OctoHipster.Services;
 
 namespace OctoHipster.ViewModels
@@ -14,7 +14,7 @@ namespace OctoHipster.ViewModels
         ObservableCollection<CustomerViewModel> MatchingCustomers { get; }
     }
 
-    public class ShellViewModel : ViewModelBase, IShellViewModel
+    public class ShellViewModel : PropertyChangedBase, IShellViewModel
     {
         readonly ICustomerService _customerService;
 
@@ -32,7 +32,7 @@ namespace OctoHipster.ViewModels
             private set
             {
                 _isLoading = value;
-                RaisePropertyChanged(() => IsLoading);
+                NotifyOfPropertyChange(() => IsLoading);
             }
         }
 
@@ -43,7 +43,7 @@ namespace OctoHipster.ViewModels
             set
             {
                 _showError = value;
-                RaisePropertyChanged(() => ShowError);
+                NotifyOfPropertyChange(() => ShowError);
             }
         }
 
@@ -55,10 +55,6 @@ namespace OctoHipster.ViewModels
             set
             {
                 _searchText = value;
-                // hahahaha this is just horrible
-                // do not try this at home
-                // use proper commanding
-                UpdateSearchResults(value);
             }
         }
 
@@ -66,18 +62,20 @@ namespace OctoHipster.ViewModels
         // raised by awaitable tasks are handled if you
         // the method signature is "async Task" - so they'll
         // be swallowed here and not bring down the app
-        async Task UpdateSearchResults(string value)
+        public async Task UpdateSearchResults()
         {
             MatchingCustomers.Clear();
 
-            if (String.IsNullOrWhiteSpace(value)) return;
+            var searchText = SearchText;
+
+            if (String.IsNullOrWhiteSpace(SearchText)) return;
 
             ShowError = false;
             IsLoading = true;
 
             try
             {
-                var customers = await _customerService.GetByName(value);
+                var customers = await _customerService.GetByName(searchText);
 
                 foreach (var c in customers)
                 {

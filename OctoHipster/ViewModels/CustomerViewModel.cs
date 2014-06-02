@@ -1,9 +1,10 @@
 ﻿using System;
-using GalaSoft.MvvmLight;
+using Caliburn.Micro;
+
 
 namespace OctoHipster.ViewModels
 {
-    public class CustomerViewModel : ViewModelBase
+    public class CustomerViewModel : PropertyChangedBase
     {
         string _name;
         public string Name
@@ -13,7 +14,7 @@ namespace OctoHipster.ViewModels
             {
                 if (_name == value) return;
                 _name = value;
-                RaisePropertyChanged(() => Name);
+                NotifyOfPropertyChange(() => Name);
             }
         }
 
@@ -26,7 +27,7 @@ namespace OctoHipster.ViewModels
             {
                 if (_dateOfBirth == value) return;
                 _dateOfBirth = value;
-                RaisePropertyChanged(() => DateOfBirth);
+                NotifyOfPropertyChange(() => DateOfBirth);
             }
         }
 
@@ -38,7 +39,7 @@ namespace OctoHipster.ViewModels
             {
                 if (_company == value) return;
                 _company = value;
-                RaisePropertyChanged(() => Company);
+                NotifyOfPropertyChange(() => Company);
             }
         }
 
@@ -50,7 +51,7 @@ namespace OctoHipster.ViewModels
             {
                 if (_contact == value) return;
                 _contact = value;
-                RaisePropertyChanged(() => Contact);
+                NotifyOfPropertyChange(() => Contact);
             }
         }
     }
