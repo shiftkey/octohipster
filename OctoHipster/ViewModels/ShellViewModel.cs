@@ -32,7 +32,6 @@ namespace OctoHipster.ViewModels
             {
                 var value = SearchText;
 
-                MatchingCustomers.Clear();
                 ShowError = false;
 
                 if (String.IsNullOrWhiteSpace(value))
@@ -52,6 +51,8 @@ namespace OctoHipster.ViewModels
 
             UpdateSearchResults.Subscribe(customers =>
             {
+                MatchingCustomers.Clear();
+
                 foreach (var c in customers)
                 {
                     MatchingCustomers.Add(new CustomerViewModel
