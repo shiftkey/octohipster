@@ -16,7 +16,7 @@ namespace OctoHipster.ViewModels
         bool IsLoading { get; }
         bool ShowError { get; }
         string SearchText { get; set; }
-        ObservableCollection<CustomerViewModel> MatchingCustomers { get; }
+        ReactiveList<CustomerViewModel> MatchingCustomers { get; }
     }
 
     public class ShellViewModel : ReactiveObject, IShellViewModel
@@ -27,7 +27,7 @@ namespace OctoHipster.ViewModels
         {
             _customerService = customerService;
 
-            MatchingCustomers = new ObservableCollection<CustomerViewModel>();
+            MatchingCustomers = new ReactiveList<CustomerViewModel>();
 
             UpdateSearchResults = ReactiveCommand.CreateAsyncTask(o =>
             {
@@ -95,6 +95,6 @@ namespace OctoHipster.ViewModels
 
         public ReactiveCommand<IEnumerable<Customer>> UpdateSearchResults { get; private set; }
 
-        public ObservableCollection<CustomerViewModel> MatchingCustomers { get; private set; }
+        public ReactiveList<CustomerViewModel> MatchingCustomers { get; private set; }
     }
 }

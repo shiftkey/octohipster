@@ -1,4 +1,5 @@
-﻿using System.Windows;
+﻿using System.Reactive.Linq;
+using System.Windows;
 using OctoHipster.ViewModels;
 using ReactiveUI;
 
@@ -14,6 +15,20 @@ namespace OctoHipster.Views
             DataContextChanged += (s, e) => { ViewModel = DataContext as IShellViewModel; };
 
             this.Bind(ViewModel, vm => vm.SearchText, v => v.SearchText.Text);
+
+            this.OneWayBind(ViewModel, vm => vm.MatchingCustomers, v => v.Items.ItemsSource);
+
+            this.OneWayBind(ViewModel, vm => vm.IsLoading, v => v.progressBar.IsIndeterminate);
+
+            var listHasItemsObs = this.WhenAnyObservable(x => x.ViewModel.MatchingCustomers.CountChanged)
+                .Select(x => x > 0);
+
+            var isLoadingObs = this.WhenAnyValue(x => x.ViewModel.IsLoading);
+
+            Observable.CombineLatest(listHasItemsObs, isLoadingObs,
+                (hasItems, isLoading) => hasItems && !isLoading)
+                .Select(b => b ? Visibility.Visible : Visibility.Collapsed)
+                .BindTo(this, v => v.Items.Visibility);
         }
 
         object IViewFor.ViewModel

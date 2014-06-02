@@ -11,7 +11,7 @@ namespace OctoHipster.ViewModels.Design
         {
             SearchText = "shiftkey";
             IsLoading = true;
-            MatchingCustomers = new ObservableCollection<CustomerViewModel>();
+            MatchingCustomers = new ReactiveList<CustomerViewModel>();
             MatchingCustomers.Add(new CustomerViewModel { Name = "Brendan Forster", Company = "GitHub" });
             MatchingCustomers.Add(new CustomerViewModel { Name = "Paul Betts", Company = "GitHub" });
             MatchingCustomers.Add(new CustomerViewModel { Name = "Matt Ellis", Company = "JetBrains" });
@@ -25,6 +25,6 @@ namespace OctoHipster.ViewModels.Design
 
         public string SearchText { get; set; }
 
-        public ObservableCollection<CustomerViewModel> MatchingCustomers { get; private set; }
+        public ReactiveList<CustomerViewModel> MatchingCustomers { get; private set; }
     }
 }
