@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
+using Caliburn.Micro;
 using NSubstitute;
 using OctoHipster.Models;
 using OctoHipster.Services;
@@ -11,7 +12,7 @@ namespace OctoHipster.Tests
     public class ShellViewModelTests
     {
         [Fact]
-        public void PopulatesResultsFromSearchText()
+        public async Task PopulatesResultsFromSearchText()
         {
             // arrange
             var service = Substitute.For<ICustomerService>();
@@ -24,7 +25,8 @@ namespace OctoHipster.Tests
 
             // act
             viewModel.SearchText = "hello";
-
+            await viewModel.UpdateSearchResults();
+            
             // assert
             Assert.Equal(1, viewModel.MatchingCustomers.Count);
         }
