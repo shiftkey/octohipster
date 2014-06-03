@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Reactive.Linq;
 using System.Threading.Tasks;
 using Caliburn.Micro;
 using NSubstitute;
@@ -25,8 +26,8 @@ namespace OctoHipster.Tests
 
             // act
             viewModel.SearchText = "hello";
-            await viewModel.UpdateSearchResults();
-            
+            await viewModel.UpdateSearchResults.ExecuteAsync();
+
             // assert
             Assert.Equal(1, viewModel.MatchingCustomers.Count);
         }
