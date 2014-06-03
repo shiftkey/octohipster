@@ -33,7 +33,7 @@ namespace OctoHipster.Services
             await Task.Delay(_random.Next(1000, 3000));
 
             // sometimes the request will fail, gotta handle that in the client
-            if (_random.Next(100) > 90)
+            if (_random.Next(100) > 66)
             {
                 throw new InvalidOperationException("something bad happened");
             }
