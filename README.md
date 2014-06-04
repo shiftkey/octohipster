@@ -10,3 +10,4 @@ The `reactive-ui` branch is the same application refactored to use ReactiveUI. T
 which may be unfamiliar to developers, so rather than rewrite it I've been refactoring it gradually to show how to 
 evolve an existing application to fit this pattern.
 
+Also uses a nice loading animation borrowed from the [SpinKit.XAML](https://github.com/nigel-sampson/spinkit-xaml) project - thanks [Nigel](http://compiledexperience.com/)!
