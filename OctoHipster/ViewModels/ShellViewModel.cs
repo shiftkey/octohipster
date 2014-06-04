@@ -66,17 +66,22 @@ namespace OctoHipster.ViewModels
         {
             MatchingCustomers.Clear();
 
+            // depends on external state, hrm
             var searchText = SearchText;
 
+            // looks like a precondition
             if (String.IsNullOrWhiteSpace(SearchText)) return;
 
+            // ha ha mutable state
             ShowError = false;
             IsLoading = true;
 
             try
             {
+                // this service is so unreliable
                 var customers = await _customerService.GetByName(searchText);
 
+                // map the results and populate the collection
                 foreach (var c in customers)
                 {
                     MatchingCustomers.Add(new CustomerViewModel
